@@ -5,6 +5,7 @@
 ;; Author: Kris Jenkins <krisajenkins@gmail.com>
 ;; Maintainer: Kris Jenkins <krisajenkins@gmail.com>
 ;; Keywords: org babel mongo mongodb
+;; Package-Version: 20170720.1919
 ;; URL: https://github.com/krisajenkins/ob-mongo
 ;; Created: 17th July 2013
 ;; Version: 0.1.0
@@ -69,12 +70,23 @@
                          (t ""))))
                pdefs " ")))
 
+(defun ob-mongo--replace-vars (body params)
+  (let ((result body))
+    (dolist (p params)
+      (let ((key (car p))
+            (value (cdr p)))
+        (when (eql key :var)
+          (setq result (replace-regexp-in-string (format "$%s" (car value)) (cdr value) body)))))
+    result))
+
+;; (ob-mongo--replace-vars "db.users.find({username: '$name'}).pretty()" '((:var name . "admin")))
 ;;;###autoload
 (defun org-babel-execute:mongo (body params)
   "org-babel mongo hook."
   (unless (assoc :db params)
     (user-error "The required parameter :db is missing."))
-  (org-babel-eval (ob-mongo--make-command params) body))
+  (org-babel-eval (ob-mongo--make-command params)
+                  (ob-mongo--replace-vars body params)))
 
 ;;;###autoload
 (eval-after-load "org"
