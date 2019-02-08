@@ -48,6 +48,11 @@
   :group 'ob-mongo
   :type 'string)
 
+(defcustom ob-mongo:default-auth-db nil
+  "Default authentication database."
+  :group 'ob-mongo
+  :type 'string)
+
 (defcustom ob-mongo:default-mongo-executable "mongo"
   "Default mongo executable."
   :group 'ob-mongo
@@ -60,6 +65,7 @@
                  (:port ,ob-mongo:default-port "--port")
                  (:password ,ob-mongo:default-password "--password")
                  (:user ,ob-mongo:default-user "--username")
+                 (:auth-db ,ob-mongo:default-auth-db "--authenticationDatabase")
                  (:db ,ob-mongo:default-db))))
     (mapconcat (lambda (pdef)
                  (let ((opt (or (nth 2 pdef) ""))
