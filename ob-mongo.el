@@ -82,7 +82,7 @@
       (let ((key (car p))
             (value (cdr p)))
         (when (eql key :var)
-          (setq result (replace-regexp-in-string (format "$%s" (car value)) (cdr value) body)))))
+          (setq result (replace-regexp-in-string (format "$%s" (car value)) (cdr value) result)))))
     result))
 
 ;; (ob-mongo--replace-vars "db.users.find({username: '$name'}).pretty()" '((:var name . "admin")))
