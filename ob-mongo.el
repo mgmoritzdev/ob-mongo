@@ -92,7 +92,7 @@
   (unless (assoc :db params)
     (user-error "The required parameter :db is missing."))
   (org-babel-eval (ob-mongo--make-command params)
-                  (ob-mongo--replace-vars body params)))
+                  (ob-mongo--replace-vars (replace-regexp-in-string "\n" "" body) params)))
 
 ;;;###autoload
 (eval-after-load "org"
