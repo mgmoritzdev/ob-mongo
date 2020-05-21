@@ -61,7 +61,7 @@
 (defun ob-mongo--make-command (params)
   (let ((pdefs `((:mongoexec ,ob-mongo:default-mongo-executable)
                  (quiet "--quiet")
-                 (:host , ob-mongo:default-host "--host")
+                 (:host ,ob-mongo:default-host "--host")
                  (:port ,ob-mongo:default-port "--port")
                  (:password ,ob-mongo:default-password "--password")
                  (:user ,ob-mongo:default-user "--username")
@@ -72,7 +72,7 @@
                        (val (or (cdr (assoc (car pdef) params))
                                 (nth 1 pdef))))
                    (cond ((not opt) (format "%s" val))
-                         (val (format "%s %s" opt val))
+                         (val (format "%s '%s'" opt val))
                          (t ""))))
                pdefs " ")))
 
